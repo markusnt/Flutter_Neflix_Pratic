@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_netflix_responsive_ui/data/data.dart';
 import 'package:flutter_netflix_responsive_ui/widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,11 +13,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _scrollController = ScrollController()..addListener(() {
-      setState(() {
-        _scrollOffset = _scrollController.offset;
+    _scrollController = ScrollController()
+      ..addListener(() {
+        setState(() {
+          _scrollOffset = _scrollController.offset;
+        });
       });
-    }); 
     super.initState();
   }
 
@@ -39,15 +41,21 @@ class _HomeScreenState extends State<HomeScreen> {
         preferredSize: Size(screenSize.width, 50.0),
         child: CustomAppBar(scrollOffset: _scrollOffset),
       ),
-      body: CustomScrollView(controller: _scrollController,
-      slivers: [
-        SliverToBoxAdapter(
-          child: Container(
-            height: 1000.0,
-            color: Colors.green,
-          ),
-        )
-      ],),
+      body: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          SliverToBoxAdapter(
+              child: ContentHeader(featuredContent: sintelContent)),
+          SliverPadding(
+              padding: const EdgeInsets.only(top: 20.0),
+              sliver: SliverToBoxAdapter(
+                child: Previews(
+                  title: 'Previews',
+                  contentList: previews,
+                ),
+              ))
+        ],
+      ),
     );
   }
 }
